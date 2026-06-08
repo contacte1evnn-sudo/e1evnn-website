@@ -1,0 +1,11 @@
+{
+  "name": "build-a-clean-modern-one-page",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "live-server --port=3000 --open=./"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
