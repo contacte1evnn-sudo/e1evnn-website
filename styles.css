@@ -739,6 +739,269 @@ button {
   transform: translate(3px, -3px);
 }
 
+.music-subsection {
+  margin-top: 90px;
+}
+
+.music-subsection + .music-subsection {
+  padding-top: 90px;
+  border-top: 1px solid var(--line);
+}
+
+.music-subheading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.music-subheading > p:last-child {
+  max-width: 430px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.75;
+}
+
+.music-subheading h3,
+.playlist-copy h3 {
+  margin: 18px 0 0;
+  font-family: var(--heading);
+  font-size: clamp(1.8rem, 3.2vw, 3.2rem);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+}
+
+.featured-grid {
+  margin-top: 38px;
+}
+
+.featured-release {
+  grid-template-columns: minmax(220px, 0.85fr) minmax(0, 1.15fr);
+}
+
+.featured-media {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-self: start;
+  width: 100%;
+}
+
+.release-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 12px;
+  background: #121212;
+}
+
+.spotify-embed {
+  display: block;
+  width: 100%;
+  height: 152px;
+  border: 0;
+  border-radius: 12px;
+  background: #121212;
+}
+
+.music-card-copy .release-artist {
+  margin: 8px 0 0;
+  color: #c5c6c0;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.stream-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.stream-links a,
+.catalog-links a,
+.credit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: #c7c8c2;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.stream-links a:hover,
+.catalog-links a:hover,
+.credit-link:hover {
+  border-color: rgba(198, 255, 93, 0.38);
+  color: var(--accent);
+  background: rgba(198, 255, 93, 0.035);
+}
+
+.catalog-disclosure {
+  margin-top: 38px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--panel);
+}
+
+.catalog-disclosure summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 25px 28px;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  list-style: none;
+  text-transform: uppercase;
+}
+
+.catalog-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.catalog-disclosure summary::after {
+  color: var(--accent);
+  content: "+";
+  font-size: 1.2rem;
+}
+
+.catalog-disclosure[open] summary::after {
+  content: "−";
+}
+
+.catalog-count {
+  margin-left: auto;
+  color: var(--faint);
+}
+
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  padding-top: 1px;
+  background: var(--line);
+}
+
+.catalog-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 225px;
+  padding: 28px;
+  background: var(--panel);
+  transition: background 220ms ease;
+}
+
+.catalog-card:hover {
+  background: var(--panel-hover);
+}
+
+.catalog-card h4,
+.credit-item h4 {
+  margin: 0;
+  font-family: var(--heading);
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+.catalog-artist,
+.catalog-role,
+.credit-artist,
+.credit-role {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
+
+.catalog-role,
+.credit-role {
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.catalog-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.credits-list {
+  margin-top: 38px;
+  border-top: 1px solid var(--line);
+}
+
+.credit-item {
+  display: grid;
+  grid-template-columns: 50px minmax(180px, 0.7fr) minmax(140px, 0.55fr) minmax(240px, 1fr) auto;
+  gap: 22px;
+  align-items: center;
+  min-height: 104px;
+  border-bottom: 1px solid var(--line);
+  transition: padding 220ms ease, background 220ms ease;
+}
+
+.credit-item:hover {
+  padding-inline: 14px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.credit-number {
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+}
+
+.credit-artist,
+.credit-role {
+  margin: 0;
+}
+
+.playlist-section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(400px, 1.2fr);
+  gap: clamp(50px, 8vw, 100px);
+  align-items: center;
+}
+
+.playlist-copy > p:last-child {
+  max-width: 480px;
+  margin: 25px 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.8;
+}
+
+.playlist-embed {
+  width: 100%;
+  height: 500px;
+  border: 0;
+  border-radius: 18px;
+  background: #121212;
+}
+
 .services {
   background: var(--ink);
 }
@@ -1037,6 +1300,18 @@ button {
     grid-template-columns: 1fr;
   }
 
+  .featured-release {
+    grid-template-columns: 1fr;
+  }
+
+  .credit-item {
+    grid-template-columns: 40px minmax(170px, 0.8fr) minmax(130px, 0.55fr) minmax(210px, 1fr) auto;
+  }
+
+  .playlist-section {
+    grid-template-columns: 1fr;
+  }
+
   .album-art {
     min-height: 280px;
   }
@@ -1198,8 +1473,70 @@ button {
     border-radius: 18px;
   }
 
+  .music-subsection {
+    margin-top: 65px;
+  }
+
+  .music-subsection + .music-subsection {
+    padding-top: 65px;
+  }
+
+  .music-subheading {
+    display: block;
+  }
+
+  .music-subheading > p:last-child {
+    margin-top: 20px;
+  }
+
+  .featured-grid {
+    margin-top: 30px;
+  }
+
   .music-card {
     padding: 16px;
+  }
+
+  .catalog-disclosure {
+    margin-top: 30px;
+    border-radius: 18px;
+  }
+
+  .catalog-disclosure summary {
+    padding: 21px 18px;
+  }
+
+  .catalog-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog-card {
+    min-height: 210px;
+    padding: 24px 20px;
+  }
+
+  .credit-item {
+    grid-template-columns: 28px 1fr auto;
+    gap: 12px;
+    padding-block: 22px;
+  }
+
+  .credit-item .credit-artist,
+  .credit-item .credit-role {
+    grid-column: 2 / 4;
+  }
+
+  .credit-link {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .playlist-section {
+    gap: 35px;
+  }
+
+  .playlist-embed {
+    height: 460px;
   }
 
   .service-list {
