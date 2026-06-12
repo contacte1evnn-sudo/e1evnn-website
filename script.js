@@ -36,6 +36,67 @@ window.addEventListener(
 );
 
 /*
+ * SPOTIFY PREVIEW COORDINATOR
+ * Spotify embeds are controlled through the official iFrame API so only one
+ * preview can play at a time. Starting a new player pauses and rewinds the last.
+ */
+const spotifyEmbedTargets = document.querySelectorAll(".spotify-embed-target");
+let activeSpotifyController = null;
+let activeSpotifyContainer = null;
+
+if (spotifyEmbedTargets.length) {
+  window.onSpotifyIframeApiReady = (IFrameAPI) => {
+    spotifyEmbedTargets.forEach((target) => {
+      const embedContainer = target.parentElement;
+      const options = {
+        uri: target.dataset.spotifyUri,
+        width: "100%",
+        height: target.dataset.height,
+        theme: "dark",
+      };
+
+      IFrameAPI.createController(target, options, (controller) => {
+        const activateController = () => {
+          if (activeSpotifyController === controller) return;
+
+          const previousController = activeSpotifyController;
+          const previousContainer = activeSpotifyContainer;
+          activeSpotifyController = controller;
+          activeSpotifyContainer = embedContainer;
+          embedContainer.dataset.playbackState = "playing";
+
+          if (previousController) {
+            if (previousContainer) previousContainer.dataset.playbackState = "paused";
+            previousController.pause();
+            previousController.seek(0);
+          }
+        };
+
+        controller.addListener("playback_started", activateController);
+
+        controller.addListener("playback_update", (event) => {
+          const isPlaying = !event.data.isPaused && !event.data.isBuffering;
+
+          // Compact track previews may report playback here before playback_started.
+          if (isPlaying) activateController();
+
+          if (event.data.isPaused && activeSpotifyController === controller) {
+            activeSpotifyController = null;
+            activeSpotifyContainer = null;
+            embedContainer.dataset.playbackState = "paused";
+          }
+        });
+      });
+    });
+  };
+
+  const spotifyApiScript = document.createElement("script");
+  spotifyApiScript.src = "https://open.spotify.com/embed/iframe-api/v1";
+  spotifyApiScript.async = true;
+  document.body.appendChild(spotifyApiScript);
+}
+
+/*
  * MUSIC DATABASE
  * Add future releases or credits by copying one object below and replacing
  * its text and links. The matching cards/rows are rendered automatically.
@@ -126,6 +187,68 @@ if (creditsList) {
       `,
     )
     .join("");
+}
+
+// Open linked service/policy details when visitors arrive through a CTA or service row.
+const openLinkedDetails = () => {
+  if (!window.location.hash) return;
+
+  const target = document.querySelector(window.location.hash);
+  if (target instanceof HTMLDetailsElement) target.open = true;
+};
+
+window.addEventListener("hashchange", openLinkedDetails);
+openLinkedDetails();
+
+// Service CTAs carry their project type into the Contact inquiry form.
+const projectSelect = document.querySelector("[data-project-select]");
+
+document.querySelectorAll(".inquiry-cta").forEach((cta) => {
+  cta.addEventListener("click", () => {
+    const projectType = cta.dataset.projectType;
+
+    if (projectSelect && projectType) {
+      projectSelect.value = projectType;
+    }
+  });
+});
+
+/*
+ * INQUIRY FORM
+ * This mailto flow keeps the static site functional without a backend.
+ * Remove this listener after connecting the form action to Formspree or another service.
+ */
+const inquiryForm = document.querySelector("[data-inquiry-form]");
+const formStatus = document.querySelector("[data-form-status]");
+
+if (inquiryForm) {
+  inquiryForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    if (!inquiryForm.reportValidity()) return;
+
+    const formData = new FormData(inquiryForm);
+    const projectType = formData.get("projectType");
+    const subject = `Project Inquiry — ${projectType} — ${formData.get("name")}`;
+    const body = [
+      "11S IINFINITY LLC — New Project Inquiry",
+      "",
+      `Name: ${formData.get("name")}`,
+      `Email: ${formData.get("email")}`,
+      `Project Type: ${projectType}`,
+      `Song / Project Name: ${formData.get("projectName")}`,
+      `Desired Turnaround: ${formData.get("turnaround") || "Not specified"}`,
+      "",
+      "Message:",
+      formData.get("message"),
+    ].join("\n");
+
+    if (formStatus) {
+      formStatus.textContent = "Opening your email app with the inquiry prepared...";
+    }
+
+    window.location.href = `mailto:contact.e1evnn@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
 }
 
 const revealElements = document.querySelectorAll(".reveal");
