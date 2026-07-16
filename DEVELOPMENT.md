@@ -60,8 +60,8 @@ API, and `mailto:` links.
   - `somewhere stuck between death & sleep`
   - `Graceful Severance`
   - `Sanctioned`
-  - `Latest Featured Release` using Spotify album ID
-    `5iLSCerLEg7W5M2mH4W4ie`
+  - `a fool's improvisation no. 1` using Spotify track ID
+    `3lke4U9EpL7vPNoZ9NaRLi`
 - 20 official catalog entries generated from JavaScript data.
 - 25 selected production and engineering credits generated from JavaScript data.
 - External links to Spotify, Apple Music, and YouTube where supplied.
@@ -150,9 +150,10 @@ Spotify placeholders are written as:
 
 The current page defines:
 
-- Two API-controlled album players at 352 pixels tall: `from me, to you..` and
-  the latest featured release with album ID `5iLSCerLEg7W5M2mH4W4ie`.
-- Three compact track players for the other featured releases at 152 pixels.
+- One API-controlled album player for `from me, to you..` at 352 pixels tall.
+- Four compact track players for the other featured releases at 152 pixels,
+  including `a fool's improvisation no. 1` with track ID
+  `3lke4U9EpL7vPNoZ9NaRLi`.
 - One official playlist player at 500 pixels.
 - The Spotify-only latest featured release spans the full featured grid row and
   uses the same `.spotify-embed-target` system as the other previews so playback
