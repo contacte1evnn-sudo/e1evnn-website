@@ -44,6 +44,7 @@ window.addEventListener(
 const spotifyEmbedTargets = document.querySelectorAll(".spotify-embed-target");
 let activeSpotifyController = null;
 let activeSpotifyContainer = null;
+const spotifyPlaybackStates = new WeakMap();
 
 if (spotifyEmbedTargets.length) {
   window.onSpotifyIframeApiReady = (IFrameAPI) => {
@@ -57,6 +58,8 @@ if (spotifyEmbedTargets.length) {
       };
 
       IFrameAPI.createController(target, options, (controller) => {
+        spotifyPlaybackStates.set(controller, { wasPlaying: false });
+
         const resetController = () => {
           [0, 120, 360].forEach((delay) => {
             window.setTimeout(() => controller.seek(0), delay);
@@ -87,15 +90,21 @@ if (spotifyEmbedTargets.length) {
 
         controller.addListener("playback_update", (event) => {
           const isPlaying = !event.data.isPaused && !event.data.isBuffering;
+          const playbackState = spotifyPlaybackStates.get(controller) || { wasPlaying: false };
 
           // Compact track previews may report playback here before playback_started.
-          if (isPlaying) activateController();
+          if (isPlaying) {
+            activateController({ restart: !playbackState.wasPlaying });
+          }
 
           if (event.data.isPaused && activeSpotifyController === controller) {
             activeSpotifyController = null;
             activeSpotifyContainer = null;
             embedContainer.dataset.playbackState = "paused";
           }
+
+          playbackState.wasPlaying = isPlaying;
+          spotifyPlaybackStates.set(controller, playbackState);
         });
       });
     });
