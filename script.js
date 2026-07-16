@@ -57,6 +57,12 @@ if (spotifyEmbedTargets.length) {
       };
 
       IFrameAPI.createController(target, options, (controller) => {
+        const resetController = () => {
+          [0, 120, 360].forEach((delay) => {
+            window.setTimeout(() => controller.seek(0), delay);
+          });
+        };
+
         const activateController = ({ restart = false } = {}) => {
           const previousController = activeSpotifyController;
           const previousContainer = activeSpotifyContainer;
@@ -69,10 +75,12 @@ if (spotifyEmbedTargets.length) {
           if (previousController && !isSameController) {
             if (previousContainer) previousContainer.dataset.playbackState = "paused";
             previousController.pause();
-            previousController.seek(0);
+            [0, 120, 360].forEach((delay) => {
+              window.setTimeout(() => previousController.seek(0), delay);
+            });
           }
 
-          if (restart) controller.seek(0);
+          if (restart) resetController();
         };
 
         controller.addListener("playback_started", () => activateController({ restart: true }));
