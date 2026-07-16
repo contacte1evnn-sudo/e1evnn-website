@@ -176,6 +176,9 @@ When a different player begins:
 - The new player becomes active.
 - The previous player is paused.
 - The previous player is rewound to zero.
+- The previous player's local playback state is marked paused immediately when
+  switching away, so returning to that preview is treated as a fresh start even
+  if Spotify's pause event is delayed.
 - The selected player is also rewound to zero on `playback_started` and on the
   first `playback_update` where that controller transitions from paused to
   playing. Short delayed retry seeks handle Spotify timing quirks so reselecting

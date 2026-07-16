@@ -77,6 +77,7 @@ if (spotifyEmbedTargets.length) {
 
           if (previousController && !isSameController) {
             if (previousContainer) previousContainer.dataset.playbackState = "paused";
+            spotifyPlaybackStates.set(previousController, { wasPlaying: false });
             previousController.pause();
             [0, 120, 360].forEach((delay) => {
               window.setTimeout(() => previousController.seek(0), delay);
