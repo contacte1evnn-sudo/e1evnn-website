@@ -38,7 +38,8 @@ window.addEventListener(
 /*
  * SPOTIFY PREVIEW COORDINATOR
  * Spotify embeds are controlled through the official iFrame API so only one
- * preview can play at a time. Starting a new player pauses and rewinds the last.
+ * preview can play at a time. Starting a player rewinds that preview and pauses
+ * and rewinds the last active preview.
  */
 const spotifyEmbedTargets = document.querySelectorAll(".spotify-embed-target");
 let activeSpotifyController = null;
@@ -56,23 +57,25 @@ if (spotifyEmbedTargets.length) {
       };
 
       IFrameAPI.createController(target, options, (controller) => {
-        const activateController = () => {
-          if (activeSpotifyController === controller) return;
-
+        const activateController = ({ restart = false } = {}) => {
           const previousController = activeSpotifyController;
           const previousContainer = activeSpotifyContainer;
+          const isSameController = previousController === controller;
+
           activeSpotifyController = controller;
           activeSpotifyContainer = embedContainer;
           embedContainer.dataset.playbackState = "playing";
 
-          if (previousController) {
+          if (previousController && !isSameController) {
             if (previousContainer) previousContainer.dataset.playbackState = "paused";
             previousController.pause();
             previousController.seek(0);
           }
+
+          if (restart) controller.seek(0);
         };
 
-        controller.addListener("playback_started", activateController);
+        controller.addListener("playback_started", () => activateController({ restart: true }));
 
         controller.addListener("playback_update", (event) => {
           const isPlaying = !event.data.isPaused && !event.data.isBuffering;
