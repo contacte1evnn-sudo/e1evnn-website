@@ -31,10 +31,12 @@ body {
   background: var(--ink);
   font-family: var(--body);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 body.menu-open {
   overflow: hidden;
+  touch-action: none;
 }
 
 a {
@@ -1801,13 +1803,21 @@ button {
     --shell: min(100% - 34px, 1240px);
   }
 
+  html {
+    scroll-padding-top: 78px;
+  }
+
+  .site-header {
+    padding-top: env(safe-area-inset-top);
+  }
+
   .nav {
     min-height: 68px;
   }
 
   .menu-toggle {
     position: relative;
-    z-index: 2;
+    z-index: 4;
     display: grid;
     gap: 7px;
     width: 42px;
@@ -1834,12 +1844,18 @@ button {
   .nav-links {
     position: fixed;
     inset: 0;
+    z-index: 3;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
-    gap: 24px;
-    padding: 90px 32px;
-    background: rgba(8, 9, 9, 0.97);
+    justify-content: flex-start;
+    gap: clamp(20px, 5svh, 34px);
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: calc(96px + env(safe-area-inset-top)) 32px calc(34px + env(safe-area-inset-bottom));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: rgba(8, 9, 9, 0.995);
     opacity: 0;
     pointer-events: none;
     transform: translateY(-10px);
@@ -1854,9 +1870,10 @@ button {
 
   .nav-links a {
     font-family: var(--heading);
-    font-size: 2.1rem;
+    font-size: clamp(2rem, 12vw, 4.25rem);
     font-weight: 600;
     letter-spacing: -0.05em;
+    line-height: 0.95;
     text-transform: none;
   }
 
@@ -1871,7 +1888,7 @@ button {
 
   .hero-title {
     margin-top: 28px;
-    font-size: clamp(5rem, 25vw, 8rem);
+    font-size: clamp(4.5rem, 23vw, 8rem);
   }
 
   .hero-roles {
@@ -1906,6 +1923,11 @@ button {
 
   .section {
     padding-block: 95px;
+  }
+
+  .section-heading h2,
+  .contact h2 {
+    font-size: clamp(2.9rem, 13.5vw, 5.1rem);
   }
 
   .about-layout {
@@ -2164,6 +2186,30 @@ button {
   .footer-inner p {
     order: 3;
     width: 100%;
+  }
+}
+
+@media (max-width: 390px), (max-width: 760px) and (max-height: 700px) {
+  .nav-links {
+    gap: 18px;
+    padding-top: calc(86px + env(safe-area-inset-top));
+  }
+
+  .nav-links a {
+    font-size: clamp(1.85rem, 10.5vw, 3.2rem);
+  }
+
+  .hero-content {
+    padding-block: 105px 132px;
+  }
+
+  .hero-title {
+    font-size: clamp(4rem, 21vw, 6.8rem);
+  }
+
+  .section-heading h2,
+  .contact h2 {
+    font-size: clamp(2.55rem, 12vw, 4.4rem);
   }
 }
 
